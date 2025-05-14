@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\pesan;
 use App\Models\kategori;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,8 @@ class KategoriController extends Controller
     public function index()
     {
         $kategori = kategori::all();
-        return view('kategori.index', compact('kategori'));
+        $pesan = pesan::all();
+        return view('kategori.index', compact('kategori', 'pesan'));
     }
 
     /**

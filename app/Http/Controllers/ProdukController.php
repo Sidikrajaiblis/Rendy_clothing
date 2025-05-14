@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\produk;
 use App\Models\kategori;
+use App\Models\pesan;
 use Illuminate\Http\Request;
 
 class ProdukController extends Controller
@@ -16,7 +17,8 @@ class ProdukController extends Controller
     public function index()
     {
         $produk = produk::all();
-        return view('produk.index', compact('produk'));
+        $pesan = pesan::all();
+        return view('produk.index', compact('produk', 'pesan'));
     }
 
     /**

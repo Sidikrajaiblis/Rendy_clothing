@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\pekerja;
+use App\Models\pesan;
 use Illuminate\Http\Request;
 
 class PekerjaController extends Controller
@@ -15,7 +16,8 @@ class PekerjaController extends Controller
     public function index()
     {
         $pekerja = pekerja::all();
-        return view('pekerja.index', compact('pekerja'));
+        $pesan = pesan::all();
+        return view('pekerja.index', compact('pekerja', 'pesan'));
     }
 
     /**

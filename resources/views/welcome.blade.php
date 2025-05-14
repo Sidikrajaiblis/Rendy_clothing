@@ -110,7 +110,6 @@
 
               <div class="position-relative mt-4">
                 <img src="{{ asset('user/img/about-2.jpg') }}" class="img-fluid rounded-4" alt="">
-                <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" class="glightbox pulsating-play-btn"></a>
               </div>
             </div>
           </div>
@@ -487,9 +486,9 @@
                 <img src="{{ asset('images/produk/' . $data->gambar_produk ) }}" class="img-fluid" alt="">
                 <div class="portfolio-info">
                   <h4>{{ $data->nama_produk }}</h4>
-                  <p>{{ $data->deskripsi ?? 'Lorem ipsum, dolor sit amet consectetur' }}</p>
+                  <p>{{ $data->deskripsi_produk }}</p>
                   <a href="{{ asset('images/produk/' . $data->gambar_produk ) }}" title="{{ $data->nama_produk }}" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  <a href="portfolio-details.html" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
+                  <a href="#" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
                 </div>
               </div>
             </div>
@@ -559,23 +558,23 @@
                 <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="200">
                   <i class="bi bi-geo-alt"></i>
                   <h3>Alamat</h3>
-                  <p>Bm</p>
+                  <p>BMI, Baleendah, Bandung</p>
                 </div>
               </div><!-- End Info Item -->
 
               <div class="col-md-6">
                 <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="300">
                   <i class="bi bi-telephone"></i>
-                  <h3>Call Us</h3>
-                  <p>+1 5589 55488 55</p>
+                  <h3>Hubungi Kami</h3>
+                  <p>+62 8212 3434</p>
                 </div>
               </div><!-- End Info Item -->
 
               <div class="col-md-6">
                 <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="400">
                   <i class="bi bi-envelope"></i>
-                  <h3>Email Us</h3>
-                  <p>info@example.com</p>
+                  <h3>Email Kami</h3>
+                  <p>rendy@email.com</p>
                 </div>
               </div><!-- End Info Item -->
 
@@ -583,35 +582,29 @@
           </div>
 
           <div class="col-lg-6">
-            <form action="forms/contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="500">
+            <form action="{{ route('pesan.store') }}" method="post" class="php-email-form">
+              @csrf
+
               <div class="row gy-4">
-
                 <div class="col-md-6">
-                  <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
+                  <input type="text" name="nama_pesan" class="form-control" placeholder="Nama" required="">
                 </div>
-
-                <div class="col-md-6 ">
-                  <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
+                <div class="col-md-6">
+                  <input type="email" name="email_pesan" class="form-control" placeholder="Email" required="">
                 </div>
-
                 <div class="col-md-12">
-                  <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
-                </div>
-
-                <div class="col-md-12">
-                  <textarea class="form-control" name="message" rows="4" placeholder="Message" required=""></textarea>
+                  <textarea name="pesan" class="form-control" rows="4" placeholder="Pesan" required></textarea>
                 </div>
 
                 <div class="col-md-12 text-center">
                   <div class="loading">Loading</div>
                   <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
-
-                  <button type="submit">Send Message</button>
+                  <div class="sent-message">Pesanmu telah dikirim. Terima kasih!</div>
+                  <button type="submit" name="save">Kirim Pesan</button>
                 </div>
-
               </div>
             </form>
+
           </div><!-- End Contact Form -->
 
         </div>
@@ -625,16 +618,16 @@
   <footer id="footer" class="footer dark-background">
 
     <div class="container footer-top">
-      <div class="row gy-4">
-        <div class="col-lg-4 col-md-6 footer-about">
-          <a href="index.html" class="logo d-flex align-items-center">
-            <span class="sitename">Dewi</span>
+      <div class="row gy-3">
+        <div class="col-lg-6 col-md-8 footer-about">
+          <a href="#" class="logo d-flex align-items-center">
+            <span class="sitename">Rendy Clothing</span>
           </a>
           <div class="footer-contact pt-3">
-            <p>A108 Adam Street</p>
-            <p>New York, NY 535022</p>
-            <p class="mt-3"><strong>Phone:</strong> <span>+1 5589 55488 55</span></p>
-            <p><strong>Email:</strong> <span>info@example.com</span></p>
+            <p>Bojong Malaka Indah</p>
+            <p>BMI, Baleendah, Bandung</p>
+            <p class="mt-3"><strong>No Telp:</strong> <span>+62 8212 3434</span></p>
+            <p><strong>Email:</strong> <span>Rendy@email.com</span></p>
           </div>
           <div class="social-links d-flex mt-4">
             <a href=""><i class="bi bi-twitter-x"></i></a>
@@ -644,51 +637,23 @@
           </div>
         </div>
 
-        <div class="col-lg-2 col-md-3 footer-links">
-          <h4>Useful Links</h4>
+        <div class="col-lg-3 col-md-6 footer-links">
+          <h4>Link halaman</h4>
           <ul>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Home</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">About us</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Services</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Terms of service</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Privacy policy</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#hero" class="active">Beranda</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#about">Tentang</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#services">Servis</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#portfolio">Produk</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#team">Tim</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#contact">KontaK</a></li>
           </ul>
-        </div>
-
-        <div class="col-lg-2 col-md-3 footer-links">
-          <h4>Our Services</h4>
-          <ul>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Web Design</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Web Development</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Product Management</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Marketing</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Graphic Design</a></li>
-          </ul>
-        </div>
-
-        <div class="col-lg-4 col-md-12 footer-newsletter">
-          <h4>Our Newsletter</h4>
-          <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
-          <form action="forms/newsletter.php" method="post" class="php-email-form">
-            <div class="newsletter-form"><input type="email" name="email"><input type="submit" value="Subscribe"></div>
-            <div class="loading">Loading</div>
-            <div class="error-message"></div>
-            <div class="sent-message">Your subscription request has been sent. Thank you!</div>
-          </form>
         </div>
 
       </div>
     </div>
 
     <div class="container copyright text-center mt-4">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">Dewi</strong> <span>All Rights Reserved</span></p>
-      <div class="credits">
-        <!-- All the links in the footer should remain intact. -->
-        <!-- You can delete the links only if you've purchased the pro version. -->
-        <!-- Licensing information: https://bootstrapmade.com/license/ -->
-        <!-- Purchase the pro version with working PHP/AJAX contact form: [buy-url] -->
-        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a> Distributed by <a href=“https://themewagon.com>ThemeWagon
-      </div>
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">Rendy Clothing</strong> <span>All Rights Reserved.</span></p>
     </div>
 
   </footer>

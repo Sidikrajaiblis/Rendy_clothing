@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\struktural;
+use App\Models\pesan;
 use Illuminate\Http\Request;
 
 class StrukturalController extends Controller
@@ -15,7 +16,8 @@ class StrukturalController extends Controller
     public function index()
     {
         $struktural = struktural::all();
-        return view('struktural.index', compact('struktural'));
+        $pesan = pesan::all();
+        return view('struktural.index', compact('struktural', 'pesan'));
     }
 
     /**
