@@ -67,12 +67,12 @@
                                     <td scope="row">{{ $data->id }}</td>
                                     <td>{{ $data->nama_kategori }}</td>
                                     <td>
-                                        <a href="{{ route('kategori.edit', $data->id)}}" class="btn btn-outline-success"><i class="bi bi-pencil-square"></i> Edit</a>
-                                        <a href="{{ route('kategori.show', $data->id)}}" class="btn btn-outline-warning"><i class="bi bi-eye"></i> Pratinjau</a>
+                                        <a href="{{ route('kategori.edit', $data->id)}}" class="btn btn-outline-success"><i class="bi bi-pencil-square"></i></a>
+                                        <a href="{{ route('kategori.show', $data->id)}}" class="btn btn-outline-warning"><i class="bi bi-eye"></i></a>
                                         <form action="{{ route('kategori.destroy', $data->id) }}" method="post" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Apakah anda yakin?')"><i class="bi bi-trash3"></i> Hapus</button>
+                                            <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Apakah anda yakin?')"><i class="bi bi-trash3"></i></button>
                                         </form>
                                     </td>
                                 </tr>

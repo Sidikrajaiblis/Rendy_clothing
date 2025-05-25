@@ -6,6 +6,7 @@ use App\Models\produk;
 use App\Models\kategori;
 use App\Models\pesan;
 use Illuminate\Http\Request;
+use App\Models\Aktivitas;
 
 class ProdukController extends Controller
 {
@@ -16,8 +17,8 @@ class ProdukController extends Controller
      */
     public function index()
     {
-        $produk = produk::all();
-        $pesan = pesan::all();
+        $produk = produk::latest()->get();
+        $pesan = pesan::latest()->get();
         return view('produk.index', compact('produk', 'pesan'));
     }
 
@@ -29,7 +30,8 @@ class ProdukController extends Controller
     public function create()
     {
         $kategori = kategori::all();
-        return view('produk.create', compact('kategori'));
+        $pesan = pesan::all();
+        return view('produk.create', compact('kategori', 'pesan'));
     }
 
     /**
@@ -72,6 +74,10 @@ class ProdukController extends Controller
 
         $produk->save();
 
+        Aktivitas::create([
+            'pesan' => 'Produk baru ditambahkan: ' . $produk->nama_produk,
+        ]);
+
         return redirect()->route('produk.index')->with('success', 'Produk berhasil dibuat.');
     }
 
@@ -83,7 +89,9 @@ class ProdukController extends Controller
      */
     public function show(produk $produk)
     {
-        return view('produk.show', compact('produk'));
+        $pesan = pesan::all();
+        $kategori = kategori::all();
+        return view('produk.show', compact('produk', 'pesan', 'kategori'));
     }
 
     /**
@@ -92,9 +100,12 @@ class ProdukController extends Controller
      * @param  \App\Models\produk  $produk
      * @return \Illuminate\Http\Response
      */
-    public function edit(produk $produk)
+    public function edit($id)
     {
-        return view('produk.edit', compact('produk'));
+        $pesan = pesan::all();
+        $kategori = kategori::all();
+        $produk = produk::findOrFail($id);
+        return view('produk.edit', compact('produk', 'kategori', 'pesan'));
     }
 
     /**
@@ -138,7 +149,13 @@ class ProdukController extends Controller
 
         $produk->save();
 
-        return redirect()->route('produk.index')->with('success', 'Produk berhasil diperbarui.');
+        Aktivitas::create([
+            'pesan' => 'Produk diperbarui: ' . $produk->nama_produk,
+        ]);
+
+        session()->flash('success', 'Data berhasil ditambahkan');
+
+        return redirect()->route('produk.index');
     }
 
     /**
@@ -153,6 +170,10 @@ class ProdukController extends Controller
             unlink(public_path('images/produk/' . $produk->gambar_produk));
         }
         $produk->delete();
+
+        Aktivitas::create([
+            'pesan' => 'Produk dihapus: ' . $produk->nama_produk,
+        ]);
 
         return redirect()->route('produk.index')->with('success', 'Produk berhasil dihapus.');
     }

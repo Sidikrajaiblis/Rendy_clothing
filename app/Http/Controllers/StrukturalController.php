@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\struktural;
 use App\Models\pesan;
 use Illuminate\Http\Request;
+use App\Models\Aktivitas;
 
 class StrukturalController extends Controller
 {
@@ -15,8 +16,8 @@ class StrukturalController extends Controller
      */
     public function index()
     {
-        $struktural = struktural::all();
-        $pesan = pesan::all();
+        $struktural = struktural::latest()->get();
+        $pesan = pesan::latest()->get();
         return view('struktural.index', compact('struktural', 'pesan'));
     }
 
@@ -27,8 +28,8 @@ class StrukturalController extends Controller
      */
     public function create()
     {
-        // Return the view to create a new struktural
-        return view('struktural.create');
+        $pesan = pesan::all();
+        return view('struktural.create', compact('pesan'));
     }
 
     /**
@@ -72,6 +73,11 @@ class StrukturalController extends Controller
             'deskripsi' => $request->input('deskripsi'),
         ]);
 
+        // Log the activity
+        Aktivitas::create([
+            'pesan' => 'Menambahkan struktural: ' . $request->input('nama_struktural'),
+        ]);
+
         return redirect()->route('struktural.index')->with('success', 'Struktural berhasil dibuat.');
     }
 
@@ -95,8 +101,8 @@ class StrukturalController extends Controller
      */
     public function edit(struktural $struktural)
     {
-        // Return the view to edit a specific struktural
-        return view('struktural.edit', compact('struktural'));
+        $pesan = pesan::all();
+        return view('struktural.edit', compact('struktural', 'pesan'));
     }
 
     /**
@@ -142,6 +148,11 @@ class StrukturalController extends Controller
             'deskripsi' => $request->input('deskripsi'),
         ]);
 
+        // Log the activity
+        Aktivitas::create([
+            'pesan' => 'Memperbarui struktural: ' . $request->input('nama_struktural'),
+        ]);
+
         return redirect()->route('struktural.index')->with('success', 'Struktural berhasil diperbarui.');
     }
 
@@ -156,6 +167,11 @@ class StrukturalController extends Controller
         // Delete the struktural record from the database
         $struktural->deleteImage(); // Delete the image file if exists
         $struktural->delete();
+
+        // Log the activity
+        Aktivitas::create([
+            'pesan' => 'Menghapus struktural: ' . $struktural->nama_struktural,
+        ]);
 
         return redirect()->route('struktural.index')->with('success', 'Struktural berhasil dihapus.');
     }

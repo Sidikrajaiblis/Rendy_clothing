@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\pesan;
 use App\Models\kategori;
 use Illuminate\Http\Request;
+use App\Models\Aktivitas;
 
 class KategoriController extends Controller
 {
@@ -15,8 +16,8 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        $kategori = kategori::all();
-        $pesan = pesan::all();
+        $kategori = kategori::latest()->get();
+        $pesan = pesan::latest()->get();
         return view('kategori.index', compact('kategori', 'pesan'));
     }
 
@@ -27,7 +28,8 @@ class KategoriController extends Controller
      */
     public function create()
     {
-        return view('kategori.create');
+        $pesan = pesan::all();
+        return view('kategori.create', compact('pesan'));
     }
 
     /**
@@ -38,19 +40,25 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'nama_kategori' => 'required|string|max:255',
-        ],
-        [
+        $request->validate(
+            [
+                'nama_kategori' => 'required|string|max:255',
+            ],
+            [
                 'nama_kategori.required' => 'Nama kategori tidak boleh kosong',
                 'nama_kategori.string' => 'Nama kategori harus berupa string',
                 'nama_kategori.max' => 'Nama kategori tidak boleh lebih dari 255 karakter',
-        ]);
+            ]
+        );
 
         $kategori = new kategori();
 
         $kategori->nama_kategori  = $request->nama_kategori;
         $kategori->save();
+
+        Aktivitas::create([
+            'pesan' => 'Menambahkan kategori: ' . $kategori->nama_kategori,
+        ]);
 
         return redirect()->route('kategori.index')->with('success', 'Kategori berhasil dibuat.');
     }
@@ -74,7 +82,8 @@ class KategoriController extends Controller
      */
     public function edit(kategori $kategori)
     {
-        return view('kategori.edit', compact('kategori'));
+        $pesan = pesan::all();
+        return view('kategori.edit', compact('kategori', 'pesan'));
     }
 
     /**
@@ -86,17 +95,24 @@ class KategoriController extends Controller
      */
     public function update(Request $request, kategori $kategori)
     {
-        $request->validate([
-            'nama_kategori' => 'required|string|max:255',
-        ],
-        [
+        $request->validate(
+            [
+                'nama_kategori' => 'required|string|max:255',
+            ],
+            [
                 'nama_kategori.required' => 'Nama kategori tidak boleh kosong',
                 'nama_kategori.string' => 'Nama kategori harus berupa string',
                 'nama_kategori.max' => 'Nama kategori tidak boleh lebih dari 255 karakter',
-        ]);
+            ]
+        );
 
         $kategori->nama_kategori  = $request->nama_kategori;
         $kategori->save();
+
+        // Catat aktivitas
+        Aktivitas::create([
+            'pesan' => 'Memperbarui kategori: ' . $kategori->nama_kategori,
+        ]);
 
         return redirect()->route('kategori.index')->with('success', 'Kategori berhasil diperbarui.');
     }
@@ -112,8 +128,12 @@ class KategoriController extends Controller
         if ($kategori->produk()->count() > 0) {
             return redirect()->route('kategori.index')->with('error', 'Kategori tidak dapat dihapus karena memiliki produk terkait.');
         }
-
         $kategori->delete();
+
+        // Catat aktivitas
+        Aktivitas::create([
+            'pesan' => 'Menghapus kategori: ' . $kategori->nama_kategori,
+        ]);
 
         return redirect()->route('kategori.index')->with('success', 'Kategori berhasil dihapus.');
     }

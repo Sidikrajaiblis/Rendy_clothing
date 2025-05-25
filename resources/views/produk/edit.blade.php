@@ -49,6 +49,16 @@
                     <div class="row justify-content-center">
                         <div class="col-md-12">
                             <div class="card">
+                                @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <strong>Whoops!</strong> Ada yang salah.<br><br>
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                                @endif
 
                                 <div class="card-body">
                                     <form action="{{ route('produk.update', $produk->id) }}" method="post" enctype="multipart/form-data">
@@ -60,7 +70,7 @@
                                         </div><br>
                                         <div class="form-group">
                                             <label>Deskripsi</label>
-                                            <input type="text" class="form-control" name="deskripsi" value="{{ $produk->deskripsi }}" required>
+                                            <input type="text" class="form-control" name="deskripsi_produk" value="{{ $produk->deskripsi }}" required>
                                         </div><br>
                                         <div class="form-group">
                                             <label>Gambar</label>

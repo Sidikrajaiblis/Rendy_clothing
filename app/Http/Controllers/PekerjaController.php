@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\pekerja;
 use App\Models\pesan;
 use Illuminate\Http\Request;
+use App\Models\Aktivitas;
 
 class PekerjaController extends Controller
 {
@@ -15,8 +16,8 @@ class PekerjaController extends Controller
      */
     public function index()
     {
-        $pekerja = pekerja::all();
-        $pesan = pesan::all();
+        $pekerja = pekerja::latest()->get();
+        $pesan = pesan::latest()->get();
         return view('pekerja.index', compact('pekerja', 'pesan'));
     }
 
@@ -27,8 +28,8 @@ class PekerjaController extends Controller
      */
     public function create()
     {
-        // Return the view to create a new pekerja
-        return view('pekerja.create');
+        $pesan = pesan::all();
+        return view('pekerja.create', compact('pesan'));
     }
 
     /**
@@ -40,24 +41,26 @@ class PekerjaController extends Controller
     public function store(Request $request)
     {
         // Validate the incoming request data
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'umur' => 'required|integer',
-            'no_hp' => 'required|string|max:15',
-            'alamat' => 'required|string|max:255',
-            'jenis_pekerjaan' => 'required|string|max:255',
-            'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ],
-        [
-            'nama.required' => 'Nama tidak boleh kosong.',
-            'umur.required' => 'Umur tidak boleh kosong.',
-            'no_hp.required' => 'Nomor HP tidak boleh kosong.',
-            'alamat.required' => 'Alamat tidak boleh kosong.',
-            'jenis_pekerjaan.required' => 'Jenis pekerjaan tidak boleh kosong.',
-            'cover.image' => 'File yang diunggah harus berupa gambar.',
-            'cover.mimes' => 'File yang diunggah harus berupa jpeg, png, jpg, atau gif.',
-            'cover.max' => 'Ukuran file tidak boleh lebih dari 2MB.',
-        ]);
+        $request->validate(
+            [
+                'nama' => 'required|string|max:255',
+                'umur' => 'required|integer',
+                'no_hp' => 'required|string|max:15',
+                'alamat' => 'required|string|max:255',
+                'jenis_pekerjaan' => 'required|string|max:255',
+                'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ],
+            [
+                'nama.required' => 'Nama tidak boleh kosong.',
+                'umur.required' => 'Umur tidak boleh kosong.',
+                'no_hp.required' => 'Nomor HP tidak boleh kosong.',
+                'alamat.required' => 'Alamat tidak boleh kosong.',
+                'jenis_pekerjaan.required' => 'Jenis pekerjaan tidak boleh kosong.',
+                'cover.image' => 'File yang diunggah harus berupa gambar.',
+                'cover.mimes' => 'File yang diunggah harus berupa jpeg, png, jpg, atau gif.',
+                'cover.max' => 'Ukuran file tidak boleh lebih dari 2MB.',
+            ]
+        );
 
         // Handle file upload if a cover image is provided
         if ($request->hasFile('cover')) {
@@ -77,6 +80,12 @@ class PekerjaController extends Controller
             'jenis_pekerjaan' => $request->input('jenis_pekerjaan'),
             'cover' => $filename,
         ]);
+
+        // Catat aktivitas
+        Aktivitas::create([
+            'pesan' => 'Menambahkan pekerja: ' . $request->input('nama'),
+        ]);
+
 
         // Redirect back to the pekerja index with a success message
         return redirect()->route('pekerja.index')->with('success', 'Pekerja berhasil ditambahkan.');
@@ -102,8 +111,8 @@ class PekerjaController extends Controller
      */
     public function edit(pekerja $pekerja)
     {
-        // Return the view to edit a specific pekerja
-        return view('pekerja.edit', compact('pekerja'));
+        $pesan = pesan::all();
+        return view('pekerja.edit', compact('pekerja', 'pesan'));
     }
 
     /**
@@ -116,24 +125,26 @@ class PekerjaController extends Controller
     public function update(Request $request, pekerja $pekerja)
     {
         // Validate the incoming request data
-        $request->validate([
-            'nama' => 'required|string|max:255',
-            'umur' => 'required|integer',
-            'no_hp' => 'required|string|max:15',
-            'alamat' => 'required|string|max:255',
-            'jenis_pekerjaan' => 'required|string|max:255',
-            'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ],
-        [
-            'nama.required' => 'Nama tidak boleh kosong.',
-            'umur.required' => 'Umur tidak boleh kosong.',
-            'no_hp.required' => 'Nomor HP tidak boleh kosong.',
-            'alamat.required' => 'Alamat tidak boleh kosong.',
-            'jenis_pekerjaan.required' => 'Jenis pekerjaan tidak boleh kosong.',
-            'cover.image' => 'File yang diunggah harus berupa gambar.',
-            'cover.mimes' => 'File yang diunggah harus berupa jpeg, png, jpg, atau gif.',
-            'cover.max' => 'Ukuran file tidak boleh lebih dari 2MB.',
-        ]);
+        $request->validate(
+            [
+                'nama' => 'required|string|max:255',
+                'umur' => 'required|integer',
+                'no_hp' => 'required|string|max:15',
+                'alamat' => 'required|string|max:255',
+                'jenis_pekerjaan' => 'required|string|max:255',
+                'cover' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            ],
+            [
+                'nama.required' => 'Nama tidak boleh kosong.',
+                'umur.required' => 'Umur tidak boleh kosong.',
+                'no_hp.required' => 'Nomor HP tidak boleh kosong.',
+                'alamat.required' => 'Alamat tidak boleh kosong.',
+                'jenis_pekerjaan.required' => 'Jenis pekerjaan tidak boleh kosong.',
+                'cover.image' => 'File yang diunggah harus berupa gambar.',
+                'cover.mimes' => 'File yang diunggah harus berupa jpeg, png, jpg, atau gif.',
+                'cover.max' => 'Ukuran file tidak boleh lebih dari 2MB.',
+            ]
+        );
 
         // Handle file upload if a cover image is provided
         if ($request->hasFile('cover')) {
@@ -154,6 +165,12 @@ class PekerjaController extends Controller
             'cover' => $filename,
         ]);
 
+        // Catat aktivitas
+        Aktivitas::create([
+            'pesan' => 'Memperbarui pekerja: ' . $request->input('nama'),
+        ]);
+
+
         // Redirect back to the pekerja index with a success message
         return redirect()->route('pekerja.index')->with('success', 'Pekerja berhasil diperbarui.');
     }
@@ -168,6 +185,10 @@ class PekerjaController extends Controller
     {
         // Delete the pekerja record from the database
         $pekerja->delete();
+
+        Aktivitas::create([
+            'pesan' => 'Menghapus pekerja: ' . $pekerja->nama,
+        ]);
 
         // Redirect back to the pekerja index with a success message
         return redirect()->route('pekerja.index')->with('success', 'Pekerja berhasil dihapus.');

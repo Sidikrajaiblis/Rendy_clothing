@@ -11,6 +11,7 @@ use App\Http\Controllers\frontController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PesanController;
+use App\Http\Controllers\AktivitasController;
 
 
 /*
@@ -36,7 +37,7 @@ Auth::routes([
     $verify = false,
 ]);
 
-Route::prefix('admin')->middleware('auth', isAdmin::class)->group(function () {
+Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');   
     
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -47,4 +48,5 @@ Route::prefix('admin')->middleware('auth', isAdmin::class)->group(function () {
     route::resource('produk',ProdukController::class);
     route::resource('kategori',KategoriController::class);
     route::resource('pesan',PesanController::class);
+    route::resource('aktivitas', AktivitasController::class);
 });

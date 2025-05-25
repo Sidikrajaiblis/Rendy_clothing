@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\pesan;
+use App\Models\pekerja;
+use App\Models\kategori;
+use App\Models\produk;
+use App\Models\Aktivitas;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -24,7 +28,21 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $pesan = pesan::all();
-        return view('home', compact('pesan'));
+        // Ambil 5 aktivitas terbaru dari tabel aktivitas
+        // Ambil 5 aktivitas terbaru dari tabel aktivitas
+        $aktivitas = Aktivitas::orderBy('created_at', 'desc')->limit(5)->get()->map(function($item) {
+            return [
+                'pesan' => $item->pesan,
+                'waktu' => $item->created_at->diffForHumans(),
+            ];
+        });
+
+        return view('home', [
+            'pekerja' => Pekerja::all(),
+            'kategori' => Kategori::all(),
+            'produk' => Produk::all(),
+            'pesan' => Pesan::latest()->get(),
+            'aktivitas' => $aktivitas,
+        ]);
     }
 }

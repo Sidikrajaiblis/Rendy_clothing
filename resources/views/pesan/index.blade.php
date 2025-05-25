@@ -73,7 +73,7 @@
                                         <form action="{{ route('pesan.destroy', $data->id) }}" method="post" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Apakah anda yakin?')"><i class="bi bi-trash3"></i> Hapus</button>
+                                            <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Apakah anda yakin?')"><i class="bi bi-trash3"></i></button>
                                         </form>
                                     </td>
                                 </tr>

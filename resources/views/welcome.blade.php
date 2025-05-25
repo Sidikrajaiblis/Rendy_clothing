@@ -51,7 +51,7 @@
         <ul>
           <li><a href="#hero" class="active">Beranda</a></li>
           <li><a href="#about">Tentang</a></li>
-          <li><a href="#services">Servis</a></li>
+          <li><a href="#services">Pelayanan</a></li>
           <li><a href="#portfolio">Produk</a></li>
           <li><a href="#team">Tim</a></li>
           <li><a href="#contact">KontaK</a></li>
@@ -59,7 +59,7 @@
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
 
-    </div>
+    </div>  
   </header>
 
   <main class="main">
@@ -128,10 +128,10 @@
 
           <div class="col-lg-3 col-md-6">
             <div class="stats-item d-flex align-items-center w-100 h-100">
-              <i class="bi bi-emoji-smile color-blue flex-shrink-0"></i>
+              <i class="bi bi-headset color-green flex-shrink-0"></i>
               <div>
-                <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
-                <p>Klien Kami</p>
+                <span data-purecounter-start="0" data-purecounter-end="{{$struktural->count()}}" data-purecounter-duration="1" class="purecounter"></span>
+                <p>petinggi perusahaan</p>
               </div>
             </div>
           </div><!-- End Stats Item -->
@@ -140,18 +140,18 @@
             <div class="stats-item d-flex align-items-center w-100 h-100">
               <i class="bi bi-journal-richtext color-orange flex-shrink-0"></i>
               <div>
-                <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
-                <p>Jenis Pakaian</p>
+                <span data-purecounter-start="0" data-purecounter-end="{{$kategori->count()}}" data-purecounter-duration="1" class="purecounter"></span>
+                <p>Kategori Pakaian</p>
               </div>
             </div>
           </div><!-- End Stats Item -->
 
           <div class="col-lg-3 col-md-6">
             <div class="stats-item d-flex align-items-center w-100 h-100">
-              <i class="bi bi-headset color-green flex-shrink-0"></i>
+              <i class="bi bi-emoji-smile color-blue flex-shrink-0"></i>
               <div>
-                <span data-purecounter-start="0" data-purecounter-end="24" data-purecounter-duration="1" class="purecounter"></span>
-                <p>Jam Support Kami</p>
+                <span data-purecounter-start="0" data-purecounter-end="{{$produk->count()}}" data-purecounter-duration="1" class="purecounter"></span>
+                <p>Produk Kami</p>
               </div>
             </div>
           </div><!-- End Stats Item -->
@@ -160,8 +160,8 @@
             <div class="stats-item d-flex align-items-center w-100 h-100">
               <i class="bi bi-people color-pink flex-shrink-0"></i>
               <div>
-                <span data-purecounter-start="0" data-purecounter-end="25" data-purecounter-duration="1" class="purecounter"></span>
-                <p>Pekerja Keras</p>
+                <span data-purecounter-start="0" data-purecounter-end="{{$pekerja->count()}}" data-purecounter-duration="1" class="purecounter"></span>
+                <p>Tim Kami</p>
               </div>
             </div>
           </div><!-- End Stats Item -->
@@ -488,7 +488,6 @@
                   <h4>{{ $data->nama_produk }}</h4>
                   <p>{{ $data->deskripsi_produk }}</p>
                   <a href="{{ asset('images/produk/' . $data->gambar_produk ) }}" title="{{ $data->nama_produk }}" data-gallery="portfolio-gallery-app" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-                  <a href="#" title="More Details" class="details-link"><i class="bi bi-link-45deg"></i></a>
                 </div>
               </div>
             </div>

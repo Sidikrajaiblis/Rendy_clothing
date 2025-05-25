@@ -17,6 +17,7 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('admin/css/sb-admin-2.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 </head>
 
@@ -37,49 +38,23 @@
             <!-- End of Topbar -->
 
             <!-- Main Content -->
-            <div id="content">
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
+            <div class="container">
+                <h1 class="h3 mb-4 text-gray-800">Semua Aktivitas</h1>
+                <div class="card">
+                    <div class="card-body">
+                        <ul class="list-group">
+                            @forelse ($aktivitas as $log)
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                {{ $log->pesan }}
+                                <span class="badge badge-primary badge-pill">{{ $log->created_at->diffForHumans() }}</span>
+                            </li>
+                            @empty
+                            <li class="list-group-item">Belum ada aktivitas.</li>
+                            @endforelse
+                        </ul>
 
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Tambah Data pesan</h1>
-                    </div>
-
-                    <div class="row justify-content-center">
-                        <div class="col-md-12">
-                            <div class="card">
-                                @if ($errors->any())
-                                <div class="alert alert-danger">
-                                    <strong>Whoops!</strong> Ada yang salah.<br><br>
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                                @endif
-
-                                <div class="card-body">
-                                    <form action="{{ route('pesan.store') }}" method="post" enctype="multipart/form-data">
-                                        @csrf
-                                        <div class="form-group">
-                                            <label>Nama pesan</label>
-                                            <input type="text" class="form-control" name="nama_pesan" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Email</label>
-                                            <input type="email" class="form-control" name="email_pesan" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>pesan</label>
-                                            <input type="text" class="form-control" name="pesan" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-primary" name="save">Submit</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                        <div class="mt-3">
+                            {{ $aktivitas->links() }} {{-- Tampilkan pagination --}}
                         </div>
                     </div>
                 </div>

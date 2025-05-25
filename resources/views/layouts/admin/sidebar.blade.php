@@ -44,7 +44,7 @@
 
     <li class="nav-item">
         <a class="nav-link" href="{{ route('pesan.index') }}">
-            <i class="bi bi-person-lines-fill"></i>
+            <i class="bi bi-envelope"></i>
             <span>Pesan</span></a>
     </li>
 

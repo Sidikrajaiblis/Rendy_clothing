@@ -76,7 +76,7 @@
                                             </select>
                                         </div><br>
                                         <div class="form-group">
-                                            <a href="{{ route('pekerja.index') }}" class="btn btn-primary">Back</a>
+                                            <a href="{{ route('produk.index') }}" class="btn btn-primary">Back</a>
                                         </div>
                                     </form>
                                 </div>

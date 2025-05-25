@@ -79,12 +79,12 @@
                                     <img src="{{ asset('/images/pekerja/' . $data->cover) }}" alt="" width="100">
                                 </td>
                                 <td>
-                                    <a href="{{ route('pekerja.edit', $data->id)}}" class="btn btn-outline-success"><i class="bi bi-pencil-square"></i> Edit</a>
-                                    <a href="{{ route('pekerja.show', $data->id)}}" class="btn btn-outline-warning"><i class="bi bi-eye"></i> Pratinjau</a>
+                                    <a href="{{ route('pekerja.edit', $data->id)}}" class="btn btn-outline-success"><i class="bi bi-pencil-square"></i></a>
+                                    <a href="{{ route('pekerja.show', $data->id)}}" class="btn btn-outline-warning"><i class="bi bi-eye"></i></a>
                                     <form action="{{ route('pekerja.destroy', $data->id) }}" method="post" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Apakah anda yakin?')"><i class="bi bi-trash3"></i> Hapus</button>
+                                        <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Apakah anda yakin?')"><i class="bi bi-trash3"></i></button>
                                     </form>
                                 </td>
                             </tr>
